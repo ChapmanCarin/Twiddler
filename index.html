@@ -102,7 +102,17 @@
     
             $("#sharks").on('click', (evt) => {
             $selectedTweets.html('');
-              $("#selected-tweets").append("<p>THAT</p>");
+            streams.users['sharksforcheap'].forEach($("#selected-tweets").append(generateMessages("sharksforcheap")));
+            })
+
+            $("#doug").on('click', (evt) => {
+            $selectedTweets.html('');
+            streams.users['douglascalhoun'].forEach($("#selected-tweets").append(generateMessages("douglascalhoun")));
+            })
+
+            $("#notmarcus").on('click', (evt) => {
+            $selectedTweets.html('');
+            streams.users['mracus'].forEach($("#selected-tweets").append(generateMessages("mracus")));
             })
 
           
