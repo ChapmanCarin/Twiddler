@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/site.css" type="text/css" />
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="https://unpkg.com/moment"></script>
     <style>
 
         .wrapper, html, body {
@@ -37,7 +38,13 @@
   <body> 
 
 <div class="wrapper">
-  <div id="navbar">Twiddler</div>
+  <div id="navbar">
+    <h1>Twiddler</h1>
+    <button id="shawn">shawndrost</button>
+    <button id="sharks">sharksforcheap</button>
+    <button id="doug">douglascalhoun</button>
+    <button id="notmarcus">mracus</button>
+  </div>
   <div id="main-content">
     <div id="all-tweets"></div>
     <div id="selected-tweets"></div>
@@ -57,7 +64,7 @@
           const timeStamp = streams.home[index].created_at;
 
           const $tweet = $('<div class="tweet"></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + timeStamp);
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + moment(timeStamp).startOf('hour').fromNow());
           $tweet.appendTo($allTweets);
           index -= 1;
         }
@@ -67,17 +74,42 @@
           while (index >= 0){
           const tweet = streams.home[index];
           const timeStamp = streams.home[index].created_at;
-          console.log(timeStamp);
 
           const $tweet = $('<div class="tweet"></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + timeStamp);
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + moment(timeStamp).startOf('hour').fromNow());
           $tweet.appendTo($allTweets);
           index -= 1;
           }
         }
 
         const timer = setInterval(tweetStream, 7000);
+        
+        const $selectedTweets = $("#selected-tweets");
 
+        const generateMessages = (user) => {
+         return streams.users[user].map((userObj) => {
+           let timeStamp = userObj.created_at;
+            return ('@' + user + ': ' + userObj.message + ' ' + moment(timeStamp).startOf('hour').fromNow() + '\n');
+          
+          })
+        }
+        
+            $("#shawn").on('click', (evt) => {
+              $selectedTweets.html('');
+
+              streams.users['shawndrost'].forEach($("#selected-tweets").append(generateMessages("shawndrost")));
+            })
+    
+            $("#sharks").on('click', (evt) => {
+            $selectedTweets.html('');
+              $("#selected-tweets").append("<p>THAT</p>");
+            })
+
+          
+          //streams.users is an object with properties for each user. 
+          //streams.users.shawndrost has all of shawndrost‘s tweets.
+
+        
 
         // clearInterval(timer);
 
