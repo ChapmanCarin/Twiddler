@@ -1,28 +1,87 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Twiddler</title>
+    <link rel="stylesheet" href="css/site.css" type="text/css" />
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <style>
+
+        .wrapper, html, body {
+        height: 100%;
+        margin: 0;
+        }
+        .wrapper {
+        display: flex;
+        flex-direction: column;
+        }
+        #navbar {
+        border: solid cornflowerblue;
+        }
+        #main-content {
+        flex:2;
+        display: flex;
+        }
+        #all-tweets {
+        border: 2px solid greenyellow;
+        border-radius: 2px;
+        flex: 1 1;
+        }
+        #selected-tweets {
+        border: 2px solid greenyellow;
+        border-radius: 2px;
+        flex: 1 1;
+        }
+  </style>
   </head>
-  <body>
+  <body> 
+
+<div class="wrapper">
+  <div id="navbar">Twiddler</div>
+  <div id="main-content">
+    <div id="all-tweets"></div>
+    <div id="selected-tweets"></div>
+  </div>
+</div>
+  
     <script>
 
       $(document).ready(() => {
         const $body = $('body');
-        $body.html('');
+        const $allTweets = $('#all-tweets');
+        // $body.html('');
 
         let index = streams.home.length - 1;
         while (index >= 0){
           const tweet = streams.home[index];
+          const timeStamp = streams.home[index].created_at;
 
-          const $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          const $tweet = $('<div class="tweet"></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + timeStamp);
+          $tweet.appendTo($allTweets);
           index -= 1;
         }
 
-      });
+        const tweetStream = function(){
+          let index = streams.home.length - 1;
+          while (index >= 0){
+          const tweet = streams.home[index];
+          const timeStamp = streams.home[index].created_at;
+          console.log(timeStamp);
 
-    </script>
+          const $tweet = $('<div class="tweet"></div>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + timeStamp);
+          $tweet.appendTo($allTweets);
+          index -= 1;
+          }
+        }
+
+        const timer = setInterval(tweetStream, 7000);
+
+
+        // clearInterval(timer);
+
+      });
+      </script>
   </body>
 </html>
